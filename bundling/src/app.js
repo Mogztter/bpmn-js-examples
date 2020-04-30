@@ -10,12 +10,19 @@ var viewer = new BpmnViewer({
   container: '#canvas'
 });
 
-viewer.importXML(pizzaDiagram, function(err) {
+try {
 
-  if (!err) {
-    console.log('success!');
+  viewer.importXML(pizzaDiagram).then(function(result) {
+
+    const { warnings } = result;
+
+    console.log('success !', warnings);
+    
     viewer.get('canvas').zoom('fit-viewport');
-  } else {
-    console.log('something went wrong:', err);
-  }
-});
+  });
+} catch(err) {
+
+  const { warnings, message } = err;
+
+  console.log('something went wrong:', warnings, message);
+}
